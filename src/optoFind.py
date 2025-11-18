@@ -14,6 +14,14 @@ from PyQt5.QtCore import QUrl
 # pip install PyQtWebEngine
 # pip libs may conflict on linux. untested on windows, but I think this is limited to system libs
 # sudo apt-get install python3-pyqt5 python3-pyqt5.qtwebengine
+
+# Silence Qt warnings
+#os.environ["QT_LOGGING_RULES"] = "*.warning=false"  
+os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-logging --log-level=3"
+#os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
+
+
+
 # CONFIG: OPTO MAC prefixes to match # will populate further later
 MAC_PREFIXES = [
     "00:a0:3d",
