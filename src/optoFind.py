@@ -10,17 +10,21 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 from PyQt5.QtCore import QUrl
-
-# pip install PyQtWebEngine
-# pip libs may conflict on linux. untested on windows, but I think this is limited to system libs
-# sudo apt-get install python3-pyqt5 python3-pyqt5.qtwebengine
-
+# windows:
+#pip install PyQtWebEngine
+#linux:
+## sudo apt-get install python3-pyqt5 python3-pyqt5.qtwebengine
+if os.name == "posix":
+	#do linux commands
+	print("linux")
+else:
+	print("windows")
+	# do windows stuff
+	# this will apply to arp and ping subprocesses. fix later.	
 # Silence Qt warnings
 #os.environ["QT_LOGGING_RULES"] = "*.warning=false"  
 os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-logging --log-level=3"
 #os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
-
-
 
 # CONFIG: OPTO MAC prefixes to match # will populate further later
 MAC_PREFIXES = [
@@ -102,9 +106,6 @@ class OptoScanner(QWidget):
         self.table.setHorizontalHeaderLabels(["Hostname", "MAC", "IP"])
         self.table.cellClicked.connect(self.cell_clicked)
                                         
-        # Browser pane
-        self.browser = QWebEngineView()
-        self.browser.setPage(InsecureWebPage(self.browser))
                                                                             
         # Assemble left pane
         left.addWidget(self.scan_button)
