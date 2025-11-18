@@ -1,0 +1,14 @@
+information to deal with later:
+
+Pinging network...
+Reading ARP table...
+Loading: https://10.1.0.156/commissioning/welcome.html
+[27380:27428:1117/194556.438415:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+[27380:27428:1117/194557.128082:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+[27380:27428:1117/194557.142687:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+[27380:27428:1117/194557.213487:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+[27380:27428:1117/194557.253406:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+[27380:27428:1117/194557.321693:ERROR:ssl_client_socket_impl.cc(960)] handshake failed; returned -1, SSL error code 1, net_error -202
+
+can probably silence with an os call. here we already know the network is insecure, so we ignore it. but Qt is uppity about it.
+I bet can fix that reall quick is how I find myself up at midnight.
