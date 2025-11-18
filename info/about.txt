@@ -12,3 +12,9 @@ Loading: https://10.1.0.156/commissioning/welcome.html
 
 can probably silence with an os call. here we already know the network is insecure, so we ignore it. but Qt is uppity about it.
 I bet can fix that reall quick is how I find myself up at midnight.
+
+Silenced with
+# Silence Qt warnings
+#os.environ["QT_LOGGING_RULES"] = "*.warning=false"  
+os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-logging --log-level=3"
+#os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
