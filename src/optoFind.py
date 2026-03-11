@@ -18,7 +18,7 @@ if os.name == "posix":
 	#do linux commands
 	print("linux")
 else:
-	print("windows")
+	print("windows not implemented")
 	# do windows stuff
 	# this will apply to arp and ping subprocesses. fix later.	
 # Silence Qt warnings
@@ -33,23 +33,45 @@ MAC_PREFIXES = [
     "b8:27:eb",
 ]
 
+IP_Targets = [
+    "10.1.0.0",
+    "192.168.1.0",
+    "169.254.54.0",
+]
+
 MAC_PREFIXES = [p.lower() for p in MAC_PREFIXES]
 
 
 
 # Utilities
-def scan_network():
+def discover_targets(ip):
+    # pass Broadcast addresses.
+    DISCOVERY_PORTS = (2002, 2001)
+    payload = b"\x00\x00\x04\x50\x00\x00\xff\xff\xf0\x30\x00\x20\x01\x30\x00\x00"
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    for port in DISCOVERY_PORTS:
+        s.sendto(payload, (ip, port))
+    s.close()
+
+
+def get_prefix(ip):
+    return ".".join(ip.split(".")[:3]) + "."
+
+
+def scan_network(ip):
     '''
     Ping sweep + ARP table parsing.
     Assumes a /24 like 192.168.1.x 
     '''
-    print("Pinging network...")
-    for i in range(1, 255):
-        subprocess.Popen(
-            ["ping", "-c", "1", "-W", "50", f"192.168.1.{i}"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+    for net in IP_Targets:
+        prefix = get_prefix(net)
+        for i in range(1, 255):
+            subprocess.Popen(
+                ["ping", "-c", "1", "-W", "1", f"{prefix}{i}"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL
+            )
 
     print("Reading ARP table...")
     out = subprocess.check_output(["arp", "-n"]).decode()
@@ -118,6 +140,9 @@ class OptoScanner(QWidget):
                                                           
     # Network scan + table population
     def do_scan(self):
+        discover_targets("192.168.1.255")   # send discovery packet 
+        discover_targets("10.1.0.255")      # send discovery packet 
+        discover_targets("169.254.54.255")  # send discovery packet 
         entries = scan_network()
         self.table.setRowCount(0)
 
