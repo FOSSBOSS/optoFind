@@ -138,13 +138,13 @@ class OptoScanner(QWidget):
         layout.addLayout(left, 30)
         layout.addWidget(self.browser, 70)
         self.setLayout(layout)
-                                                          
+    # TODO:: FIX do_scan() use array above, add a loop                                                    
     # Network scan + table population
     def do_scan(self):
         discover_targets("192.168.1.255")   # send discovery packet 
         discover_targets("10.1.0.255")      # send discovery packet 
         discover_targets("169.254.54.255")  # send discovery packet 
-        entries = scan_network()
+        entries = scan_network(ip)
         self.table.setRowCount(0)
 
         for ip, mac in entries:
