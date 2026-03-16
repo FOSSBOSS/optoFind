@@ -3,6 +3,7 @@ import sys
 import os
 import subprocess
 import re
+import socket
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
     QTableWidget, QTableWidgetItem
